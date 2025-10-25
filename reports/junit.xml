@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="5" failures="0" errors="0" time="1.053">
+  <testsuite name="Integration: API &lt;-&gt; DB" errors="0" failures="0" skipped="0" timestamp="2025-10-25T11:38:51" time="0.751" tests="2">
+    <testcase classname="Integration: API &lt;-&gt; DB POST /items creates an item and GET /items returns it" name="Integration: API &lt;-&gt; DB POST /items creates an item and GET /items returns it" time="0.062">
+    </testcase>
+    <testcase classname="Integration: API &lt;-&gt; DB POST /items without name yields 400" name="Integration: API &lt;-&gt; DB POST /items without name yields 400" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="API tests" errors="0" failures="0" skipped="0" timestamp="2025-10-25T11:38:52" time="0.158" tests="3">
+    <testcase classname="API tests GET / returns status ok" name="API tests GET / returns status ok" time="0.007">
+    </testcase>
+    <testcase classname="API tests POST /add returns sum for numbers" name="API tests POST /add returns sum for numbers" time="0.026">
+    </testcase>
+    <testcase classname="API tests POST /add rejects non-number" name="API tests POST /add rejects non-number" time="0.008">
+    </testcase>
+  </testsuite>
+</testsuites>
