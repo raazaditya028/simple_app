@@ -1,0 +1,33 @@
+name: Performance Test
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: ["completed"]
+
+jobs:
+  k6-test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # If the app is deployed to a staging URL, set BASE_URL to it. For demo, we run the app in the job.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install deps
+        run: npm ci
+
+      - name: Start server (background)
+        run: |
+          nohup npm start &>/tmp/server.log &
+          echo "Waiting for server to start..."
+          sleep 3
+
+      - name: Run k6 (Docker)
+        run: |
+          docker run --rm -v "${{ github.workspace }}":/scripts -w /scripts loadimpact/k6 run /scripts/k6/script.js
