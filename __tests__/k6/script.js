@@ -8,7 +8,7 @@ export let options = {
 
 export default function () {
   // adjust base URL if needed (use deployed/staging URL for CI)
-  const BASE = __ENV.BASE_URL || 'http://host.docker.internal:8181';
+  const BASE = __ENV.BASE_URL || 'http://host.docker.internal:3000';
   const r1 = http.get(`${BASE}/`);
   check(r1, { 'status is 200': (r) => r.status === 200 });
 

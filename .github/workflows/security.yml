@@ -1,0 +1,30 @@
+name: Security Scan
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI"]
+    types: ["completed"]
+
+jobs:
+  zap-scan:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start server
+        run: |
+          nohup npm start &>/tmp/server.log &
+          sleep 3
+
+      - name: Run ZAP baseline scan
+        run: |
+          docker run --rm -v "${{ github.workspace }}":/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://localhost:3000 -r zap_report.html
+
+      - name: Upload ZAP report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: zap_report.html
